@@ -24,6 +24,7 @@
                     <label for="author"> Author </label>
                     <input type="text" id="author" v-model="post.author" name="author" class="form-control">
                 </div>
+
                 <div class="form-group col-md-4 pull-right">
                     <button class="btn btn-success" type="submit"> Edit Post </button>
                 </div>
@@ -33,49 +34,6 @@
 </template>
 
 <script>
-    import { server } from "../../utils/helper"
-    import axios from "axios"
-    import router from "../../router"
-
-    export default {
-        data() {
-            return {
-                id: 0,
-                post: {}
-            }
-        },
-        created() {
-            this.id = this.$route.params.id
-            this.getPost()
-        },
-        methods: {
-            editPost() {
-                let postData = {
-                    title: this.post.title,
-                    description: this.post.description,
-                    body: this.post.body,
-                    author: this.post.author,
-                    date_posted: this.post.date_posted
-                }
-                axios
-                    .put(`${server.baseURL}/blog/edit?postID=${this.id}`, postData)
-                    .then(data => {
-                        router.push({ name: "home" })
-                    })
-            },
-            getPost() {
-                axios
-                    .get(`${server.baseURL}/blog/post/${this.id}`)
-                    .then(data => (this.post = data.data))
-            },
-            navigate() {
-                router.go(-1)
-            }
-        }
-    }
-
-
-    <script>
     import { server } from "../../utils/helper";
     import axios from "axios";
     import router from "../../router";
@@ -101,7 +59,7 @@
                 };
                 axios
                     .put(`${server.baseURL}/blog/edit?postID=${this.id}`, postData)
-                    .then(data => {
+                    .then(() => {
                         router.push({ name: "home" });
                     });
             },
